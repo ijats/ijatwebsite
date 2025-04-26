@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f1f3f5;
+  color: #222;
+}
+.page {
+  max-width: 1200px;
+  margin: auto;
+}
+.journal-header {
+  padding: 2rem 1rem 1rem 1rem;
+}
+.journal-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.journal-summary {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+.main-grid {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+}
+.main-content {
+  flex: 2;
+}
+.sidebar {
+  flex: 1;
+}
+.sidebar-box {
+  background: #fff;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+.sidebar-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+.sidebar-box ul li {
+  margin: 0.4rem 0;
+}
+.sidebar-box a {
+  text-decoration: none;
+  color: #007acc;
+}
+.tab-bar {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.tab {
+  padding: 0.3rem 0.6rem;
+  background: #e2e6ea;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+.tab.active {
+  background: #007acc;
+  color: #fff;
+}
+.article {
+  margin-bottom: 1.5rem;
+}
+.article h3 {
+  margin: 0;
+}
+.article h3 a {
+  color: #0056b3;
+  text-decoration: none;
+}
+.authors {
+  font-size: 0.85rem;
+  color: #555;
+}
+.signup-btn {
+  background: #111;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border-radius: 3px;
+}
+.footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #555;
+  padding: 1rem;
+}
