@@ -1,74 +1,94 @@
 ---
-layout: article
-titles:
-  # @start locale config
-  en      : &EN       About
-  en-GB   : *EN
-  en-US   : *EN
-  en-CA   : *EN
-  en-AU   : *EN
-  zh-Hans : &ZH_HANS  关于
-  zh      : *ZH_HANS
-  zh-CN   : *ZH_HANS
-  zh-SG   : *ZH_HANS
-  zh-Hant : &ZH_HANT  關於
-  zh-TW   : *ZH_HANT
-  zh-HK   : *ZH_HANT
-  ko      : &KO       소개
-  ko-KR   : *KO
-  fr      : &FR       À propos
-  fr-BE   : *FR
-  fr-CA   : *FR
-  fr-CH   : *FR
-  fr-FR   : *FR
-  fr-LU   : *FR
-  # @end locale config
-key: page-about
+layout: page
+title: "About IJATS"
+permalink: /about.html
 ---
 
-![TeXt Theme](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/TeXt-home.jpg)
+# About the Journal
 
-TeXt is a super customizable Jekyll theme for personal site, team site, blog, project, documentation, etc. Similar to iOS 11 style, it has large and prominent titles, round buttons and cards.
+The **International Journal of Applied Technology Solutions (IJATS)** is a premier open-access journal dedicated to publishing cutting-edge research in applied technology across industries.  
+IJATS aims to bridge the gap between academic innovation and real-world technology solutions, driving tangible impact across sectors including engineering, data science, healthcare, education, finance, manufacturing, and beyond.
 
-```javascript
-(() => console.log('Hello, World!'))();
-```
+IJATS provides a global platform for researchers, practitioners, and thought leaders to share actionable insights and foster interdisciplinary collaboration that transforms emerging technologies into scalable, sustainable solutions.
 
-## Features
+---
 
-- Responsive
-- Semantic HTML
-- Skins
-- Highlight Theme
-- Internationalization
-- Search
-- Table of contents
-- Authors
-- Additional styles (alert, tag, image, icon, button, grid, etc)
-- Extensions (audios, videos, slides, demos)
-- Markdown enhancements ([MathJax](https://www.mathjax.org/), [mermaid](https://mermaidjs.github.io/), [chartjs](http://www.chartjs.org/))
-- Sharing ([AddToAny](https://www.addtoany.com/), [AddThis](https://www.addthis.com/))
-- Comments ([Disqus](https://disqus.com/), [Gitalk](https://gitalk.github.io/), [Valine](https://valine.js.org/en/))
-- Pageview ([LeanCloud](https://leancloud.cn/))
-- Analytics ([Google Analytics](https://analytics.google.com/analytics/web/))
-- RSS ([jekyll-feed](https://github.com/jekyll/jekyll-feed))
+# Mission and Vision
 
-## Skins
+**Mission:**  
+To foster the dissemination of high-impact research that translates technological innovation into practical applications across industries, enhancing societal progress and sustainable development.
 
-TeXt has 6 built-in skins, you can also set up your own skin.
+**Vision:**  
+To become a globally recognized leader in publishing applied technology research, bridging theory and practice, and inspiring interdisciplinary solutions to the world’s critical technological challenges.
 
-| `default` | `dark` | `forest` |
-| --- |  --- | --- |
-| ![Default](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_default.jpg) | ![Dark](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_dark.jpg) | ![Forest](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_forest.jpg) |
+---
 
-| `ocean` | `chocolate` | `orange` |
-| --- |  --- | --- |
-| ![Ocean](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_ocean.jpg) | ![Chocolate](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_chocolate.jpg) | ![Orange](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/skins_orange.jpg) |
+# Aims and Scope
 
-### Highlight Theme
+**Aims:**  
+The primary aim of IJATS is to advance applied technology research that demonstrates clear industrial, societal, or economic benefits. We emphasize the publication of peer-reviewed, original contributions that translate theoretical advancements into real-world practice.
 
-TeXt use [Tomorrow](https://github.com/chriskempson/tomorrow-theme) as the highlight theme.
+**Scope:**  
+IJATS welcomes original contributions in, but not limited to:
 
-| `tomorrow` | `tomorrow-night` | `tomorrow-night-eighties` | `tomorrow-night-blue` | `tomorrow-night-bright` |
-| --- |  --- | --- | --- |  --- |
-| ![Tomorrow](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow.png) | ![Tomorrow Night](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow-night.png) | ![Tomorrow Night Eighties](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow-night-eighties.png) | ![Tomorrow Night Blue](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow-night-blue.png) | ![Tomorrow Night Bright](https://raw.githubusercontent.com/kitian616/jekyll-TeXt-theme/master/screenshots/highlight_tomorrow-night-bright.png) |
+<div style="padding-left: 20px;">
+<ul>
+  <li>Artificial Intelligence and Machine Learning Applications</li>
+  <li>Data Engineering and Cloud Computing Solutions</li>
+  <li>Internet of Things (IoT) and Smart Systems</li>
+  <li>Cybersecurity Practices and Protocols</li>
+  <li>Robotics, Automation, and Control Systems</li>
+  <li>Healthcare Informatics and Digital Health Technologies</li>
+  <li>Educational Technologies and Learning Innovation</li>
+  <li>Sustainable Technology and Environmental Solutions</li>
+  <li>Emerging Trends in Fintech and Blockchain</li>
+  <li>Manufacturing and Industrial Technology Innovations</li>
+</ul>
+</div>
+
+Both theoretical frameworks and practical deployments are encouraged, provided they highlight real-world applicability and technological impact.
+
+---
+
+# Editorial Policies
+
+All submissions undergo a rigorous double-blind peer review process to ensure originality, quality, and relevance.  
+IJATS follows ethical guidelines based on best practices established by the Committee on Publication Ethics (COPE).
+
+We uphold the highest standards of editorial integrity, transparency, and academic excellence in every stage of the publication process.
+
+---
+
+# Editorial Board
+
+**Editor-in-Chief:**  
+- **Sukhdevsinh Dhummad**  
+  *Systems Architect - Enterprise Data*
+
+We are in the process of expanding the Editorial Board. Researchers, practitioners, and industry leaders passionate about bridging research and practice are invited to join our growing academic community.
+
+---
+
+# Indexing and Visibility
+
+IJATS is committed to enhancing the visibility and impact of published research.  
+Our future indexing roadmap includes submissions to:
+
+- Google Scholar
+- Directory of Open Access Journals (DOAJ)
+- Scopus
+- Web of Science (ESCI)
+
+Through continuous improvement of our editorial practices, we aspire to be a leading journal indexed across major global scholarly databases.
+
+---
+
+# Contact Us
+
+For queries, submissions, or collaboration proposals, please reach out at:
+
+📧 **contact@ijats.org**
+
+---
+
+*IJATS is committed to fostering a global exchange of knowledge and accelerating technology-driven change for a better tomorrow.*

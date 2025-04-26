@@ -72,3 +72,21 @@
 
     "custom"
 ;
+.announcement-box {
+    background-color: #f5f5f5; /* soft grey background */
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    
+    /* Fancy enhancement */
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Simple keyframes */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
