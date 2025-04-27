@@ -4,8 +4,6 @@ title: "Call for Papers"
 permalink: /call-for-papers.html
 ---
 
-# Call for Papers
-
 The **International Journal of Applied Technology Solutions (IJATS)** invites researchers, practitioners, and innovators to submit high-quality, original research articles, case studies, technical notes, and review papers for our inaugural issue.
 
 We are seeking impactful contributions that bridge theory and practice across a wide range of technology domains, including:

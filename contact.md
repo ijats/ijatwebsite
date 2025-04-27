@@ -4,8 +4,6 @@ title: "Contact Us"
 permalink: /contact.html
 ---
 
-# Contact Us
-
 We welcome inquiries, collaborations, and submissions of original research in applied technology fields.
 
 If you have any questions about the journal, submission process, editorial policies, or would like to explore collaboration opportunities, please contact us:

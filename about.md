@@ -4,8 +4,6 @@ title: "About IJATS"
 permalink: /about.html
 ---
 
-# About the Journal
-
 The **International Journal of Applied Technology Solutions (IJATS)** is a premier open-access journal dedicated to publishing cutting-edge research in applied technology across industries.  
 IJATS aims to bridge the gap between academic innovation and real-world technology solutions, driving tangible impact across sectors including engineering, data science, healthcare, education, finance, manufacturing, and beyond.
 

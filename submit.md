@@ -4,8 +4,6 @@ title: "Submit a Paper"
 permalink: /submit.html
 ---
 
-# Submit a Paper
-
 The **International Journal of Applied Technology Solutions (IJATS)** welcomes original research papers, case studies, technical notes, and review articles from researchers and practitioners worldwide.
 
 ---
