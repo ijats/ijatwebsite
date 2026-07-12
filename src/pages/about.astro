@@ -1,0 +1,89 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { journal } from '../lib/journal';
+---
+
+<PageLayout
+  title="About IJATS"
+  subtitle="Bridging academic innovation and real-world technology solutions."
+  description="About the International Journal of Applied Technology Solutions — mission, aims and scope, editorial board, and indexing roadmap."
+>
+  <p>
+    The <strong>{journal.name} ({journal.shortName})</strong> is a premier
+    open-access journal dedicated to publishing cutting-edge research in applied
+    technology across industries. IJATS aims to bridge the gap between academic
+    innovation and real-world technology solutions, driving tangible impact
+    across engineering, data science, healthcare, education, finance,
+    manufacturing, and beyond.
+  </p>
+  <p>
+    IJATS provides a global platform for researchers, practitioners, and thought
+    leaders to share actionable insights and foster interdisciplinary
+    collaboration that transforms emerging technologies into scalable,
+    sustainable solutions.
+  </p>
+
+  <h2 id="mission-and-vision">Mission &amp; Vision</h2>
+  <p>
+    <strong>Mission:</strong> To foster the dissemination of high-impact research
+    that translates technological innovation into practical applications across
+    industries, enhancing societal progress and sustainable development.
+  </p>
+  <p>
+    <strong>Vision:</strong> To become a globally recognized leader in publishing
+    applied technology research — bridging theory and practice, and inspiring
+    interdisciplinary solutions to the world's critical technological challenges.
+  </p>
+
+  <h2 id="aims-and-scope">Aims &amp; Scope</h2>
+  <p>
+    The primary aim of IJATS is to advance applied technology research that
+    demonstrates clear industrial, societal, or economic benefits. We emphasize
+    peer-reviewed, original contributions that translate theoretical advancements
+    into real-world practice. IJATS welcomes original contributions in, but not
+    limited to:
+  </p>
+  <ul>
+    {journal.scope.map((topic) => <li>{topic}</li>)}
+  </ul>
+  <p>
+    Both theoretical frameworks and practical deployments are encouraged, provided
+    they highlight real-world applicability and technological impact.
+  </p>
+
+  <h2 id="editorial-board">Editorial Board</h2>
+  <p><strong>Editor-in-Chief</strong></p>
+  <ul>
+    <li>
+      <strong>{journal.editorInChief.name}</strong> — <em>{journal.editorInChief.title}</em>
+    </li>
+  </ul>
+  <p>
+    We are actively expanding the Editorial Board. Researchers, practitioners, and
+    industry leaders passionate about bridging research and practice are invited
+    to join our growing academic community — please
+    <a href="/contact">get in touch</a>.
+  </p>
+
+  <h2 id="indexing">Indexing &amp; Visibility</h2>
+  <p>
+    IJATS is committed to enhancing the visibility and impact of published
+    research. Our indexing roadmap includes submissions to:
+  </p>
+  <ul>
+    {journal.indexingRoadmap.map((idx) => <li>{idx}</li>)}
+  </ul>
+  <p>
+    Through continuous improvement of our editorial practices, we aspire to be a
+    leading journal indexed across major global scholarly databases. (ISSN:
+    {' '}{journal.issn}.)
+  </p>
+
+  <hr />
+  <p>
+    <em>
+      IJATS is committed to fostering a global exchange of knowledge and
+      accelerating technology-driven change for a better tomorrow.
+    </em>
+  </p>
+</PageLayout>

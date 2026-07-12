@@ -1,0 +1,166 @@
+# =============================================================================
+# IJATS Editor Console configuration (Sveltia CMS)
+#
+# This drives the /admin console. Editors log in with GitHub, fill in the forms
+# below, and their changes are committed to the repository — which rebuilds and
+# publishes the site automatically.
+#
+# BEFORE THIS WORKS you must set `backend.base_url` to your deployed OAuth
+# relay (a free Cloudflare Worker). See DEPLOYMENT.md, step "Admin login".
+# =============================================================================
+
+backend:
+  name: github
+  repo: ijats/ijatwebsite
+  branch: master
+  # URL of the sveltia-cms-auth Cloudflare Worker that performs the GitHub
+  # OAuth handshake. Replace with your worker's URL, e.g.
+  # https://ijats-cms-auth.<your-subdomain>.workers.dev
+  base_url: https://REPLACE-WITH-YOUR-OAUTH-WORKER.workers.dev
+
+# Show a "Publish" workflow with a preview before changes go live.
+publish_mode: simple
+
+# Uploaded PDFs and cover images land here in the repo...
+media_folder: public/pdfs
+# ...and are referenced from the site by this public path.
+public_folder: /pdfs
+
+# Friendlier labels in the UI.
+site_url: https://ijats.org
+logo_url: /logo.svg
+
+collections:
+  # ---------------------------------------------------------------------------
+  # ISSUES — create one per edition (monthly, quarterly, etc.). Create the
+  # issue first, then add Articles that reference it.
+  # ---------------------------------------------------------------------------
+  - name: issues
+    label: Issues
+    label_singular: Issue
+    folder: src/content/issues
+    create: true
+    # Files are named e.g. vol-1-issue-1.md, matching the article relation.
+    slug: 'vol-{{fields.volume}}-issue-{{fields.issue}}'
+    summary: 'Vol. {{fields.volume}}, No. {{fields.issue}} — {{fields.title}}'
+    sortable_fields: [volume, issue, publishDate]
+    fields:
+      - { name: volume, label: Volume, widget: number, value_type: int, min: 1 }
+      - { name: issue, label: Issue number, widget: number, value_type: int, min: 1 }
+      - {
+          name: title,
+          label: Issue title,
+          widget: string,
+          required: false,
+          hint: 'Optional label such as "Spring 2026" or "Inaugural Issue".',
+        }
+      - {
+          name: publishDate,
+          label: Publication date,
+          widget: datetime,
+          time_format: false,
+          format: 'YYYY-MM-DD',
+          date_format: 'YYYY-MM-DD',
+        }
+      - {
+          name: status,
+          label: Status,
+          widget: select,
+          options: [draft, published],
+          default: draft,
+          hint: 'Only "published" issues appear on the public site.',
+        }
+      - {
+          name: summary,
+          label: Summary,
+          widget: text,
+          required: false,
+          hint: 'A short description shown on the issue card and page.',
+        }
+      - {
+          name: coverImage,
+          label: Cover image,
+          widget: image,
+          required: false,
+          hint: 'Optional. If omitted, a styled Vol/No cover is generated.',
+        }
+      - {
+          name: fullIssuePdf,
+          label: Full-issue PDF,
+          widget: file,
+          required: false,
+          media_library: { config: { max_file_size: 52428800 } },
+          hint: 'Optional single PDF of the entire issue.',
+        }
+
+  # ---------------------------------------------------------------------------
+  # ARTICLES — one per paper. Each has its own PDF and citation metadata.
+  # ---------------------------------------------------------------------------
+  - name: articles
+    label: Articles
+    label_singular: Article
+    folder: src/content/articles
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    sortable_fields: [publishDate, order, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - {
+          name: authors,
+          label: Authors,
+          widget: list,
+          field: { name: author, label: Author, widget: string },
+          hint: 'Add each author separately, in citation order.',
+        }
+      - { name: abstract, label: Abstract, widget: text }
+      - {
+          name: keywords,
+          label: Keywords,
+          widget: list,
+          required: false,
+          field: { name: keyword, label: Keyword, widget: string },
+        }
+      - { name: startPage, label: Start page, widget: number, value_type: int, required: false, min: 1 }
+      - { name: endPage, label: End page, widget: number, value_type: int, required: false, min: 1 }
+      - {
+          name: pdf,
+          label: Article PDF,
+          widget: file,
+          media_library: { config: { max_file_size: 52428800 } },
+          hint: 'Upload the article PDF (max 50 MB).',
+        }
+      - { name: doi, label: DOI, widget: string, required: false, hint: 'Optional, e.g. 10.1234/ijats.2026.001' }
+      - {
+          name: issue,
+          label: Issue,
+          widget: relation,
+          collection: issues,
+          value_field: '{{slug}}',
+          search_fields: [title, volume],
+          display_fields: ['{{title}}'],
+          hint: 'Which issue this article belongs to. Create the issue first.',
+        }
+      - {
+          name: order,
+          label: Order in issue,
+          widget: number,
+          value_type: int,
+          default: 0,
+          hint: 'Lower numbers appear first in the table of contents.',
+        }
+      - {
+          name: publishDate,
+          label: Publication date,
+          widget: datetime,
+          time_format: false,
+          format: 'YYYY-MM-DD',
+          date_format: 'YYYY-MM-DD',
+        }
+      - {
+          name: status,
+          label: Status,
+          widget: select,
+          options: [draft, published],
+          default: draft,
+        }

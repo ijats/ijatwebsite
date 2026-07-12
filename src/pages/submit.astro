@@ -1,0 +1,54 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { journal } from '../lib/journal';
+---
+
+<PageLayout
+  title="Submit a Paper"
+  subtitle="Original research, case studies, technical notes, and reviews are welcome."
+  description="How to submit your manuscript to IJATS, including required components and the peer-review process."
+>
+  <p>
+    The <strong>{journal.name} ({journal.shortName})</strong> welcomes original
+    research papers, case studies, technical notes, and review articles from
+    researchers and practitioners worldwide.
+  </p>
+
+  <h2>Submission Instructions</h2>
+  <ul>
+    <li>Manuscripts must be prepared in <strong>English</strong> and follow IJATS formatting guidelines.</li>
+    <li>All submissions must be <strong>original</strong> and <strong>unpublished</strong>, and not under consideration elsewhere.</li>
+  </ul>
+  <p>Please include the following components:</p>
+  <ul>
+    <li>Title Page (title, authors, affiliations, contact email)</li>
+    <li>Abstract (200–300 words)</li>
+    <li>Keywords (3–6 relevant terms)</li>
+    <li>Main Manuscript Body (Introduction, Methods, Results, Discussion, Conclusion)</li>
+    <li>References (standard citation format)</li>
+  </ul>
+  <p>
+    Submit your manuscript as a <strong>PDF or Word document</strong> by email to
+    <a href={`mailto:${journal.email.submissions}?subject=IJATS%20Submission`}>{journal.email.submissions}</a>.
+    Please include <strong>"IJATS Submission"</strong> in the subject line.
+  </p>
+
+  <h2>Peer Review Process</h2>
+  <p>
+    All submissions undergo a rigorous <strong>double-blind peer review</strong> by
+    independent experts, selected on the basis of subject expertise. Evaluation
+    focuses on originality, significance, quality, and relevance.
+  </p>
+
+  <h2>Open Access &amp; Fees</h2>
+  <p>
+    IJATS is an <strong>open-access journal</strong>. For the inaugural issues,
+    there are <strong>no Article Processing Charges (APCs)</strong>.
+  </p>
+
+  <h2>Need Assistance?</h2>
+  <p>
+    If you encounter any issues during submission, please
+    <a href="/contact">contact us</a>.
+  </p>
+</PageLayout>

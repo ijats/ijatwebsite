@@ -1,0 +1,108 @@
+---
+import { journal, navLinks } from '../lib/journal';
+
+// Highlight the active section (match on the first path segment).
+const current = '/' + (Astro.url.pathname.split('/').filter(Boolean)[0] ?? '');
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur-md dark:border-slate-800/70 dark:bg-slate-950/85"
+>
+  <div class="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:px-6">
+    <a href="/" class="flex items-center gap-3" aria-label={`${journal.shortName} home`}>
+      <img src="/logo.svg" alt="" class="h-9 w-9" width="36" height="36" />
+      <span class="flex flex-col leading-tight">
+        <span class="font-serif text-lg font-bold tracking-tight text-slate-900 dark:text-white">
+          {journal.shortName}
+        </span>
+        <span class="hidden text-[11px] font-medium uppercase tracking-wider text-slate-500 sm:block dark:text-slate-400">
+          Applied Technology Solutions
+        </span>
+      </span>
+    </a>
+
+    <nav class="ml-auto hidden items-center gap-1 md:flex" aria-label="Primary">
+      {
+        navLinks.map((link) => {
+          const active =
+            link.href === '/' ? current === '/' : current === link.href;
+          return (
+            <a
+              href={link.href}
+              aria-current={active ? 'page' : undefined}
+              class:list={[
+                'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                active
+                  ? 'bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-200'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white',
+              ]}
+            >
+              {link.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <button
+      id="theme-toggle"
+      type="button"
+      class="ml-auto grid h-9 w-9 place-items-center rounded-md text-slate-600 hover:bg-slate-100 md:ml-1 dark:text-slate-300 dark:hover:bg-slate-800"
+      aria-label="Toggle dark mode"
+    >
+      <svg class="h-5 w-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.66 6.66-1.42-1.42M7.76 7.76 6.34 6.34m11.32 0-1.42 1.42M7.76 16.24l-1.42 1.42M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+      </svg>
+      <svg class="hidden h-5 w-5 dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+      </svg>
+    </button>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      class="grid h-9 w-9 place-items-center rounded-md text-slate-600 hover:bg-slate-100 md:hidden dark:text-slate-300 dark:hover:bg-slate-800"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+    >
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-nav"
+    class="hidden border-t border-slate-200 px-4 pb-3 md:hidden dark:border-slate-800"
+    aria-label="Mobile"
+  >
+    {
+      navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<script>
+  // Mobile menu toggle.
+  const menuBtn = document.getElementById('menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  menuBtn?.addEventListener('click', () => {
+    const open = mobileNav?.classList.toggle('hidden') === false;
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+
+  // Dark mode toggle — persists choice, falls back to OS preference.
+  const themeBtn = document.getElementById('theme-toggle');
+  themeBtn?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+</script>

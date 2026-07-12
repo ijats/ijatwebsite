@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="IJATS">
+  <defs>
+    <linearGradient id="ijats-g" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3563eb"/>
+      <stop offset="1" stop-color="#1c3389"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="11" fill="url(#ijats-g)"/>
+  <!-- Stylised "IJ" monogram with a connecting node motif -->
+  <path d="M16 13v22" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M31 13v14a6 6 0 0 1-6 6h-1.5" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="31" cy="13" r="2.6" fill="#f5b544"/>
+  <circle cx="16" cy="13" r="2.6" fill="#f5b544"/>
+</svg>

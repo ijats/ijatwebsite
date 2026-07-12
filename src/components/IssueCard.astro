@@ -1,0 +1,67 @@
+---
+import type { Issue } from '../lib/content';
+import { issueLabel, formatDate } from '../lib/content';
+
+interface Props {
+  issue: Issue;
+  articleCount: number;
+  featured?: boolean;
+}
+const { issue, articleCount, featured = false } = Astro.props;
+const href = `/issues/${issue.id}`;
+---
+
+<a
+  href={href}
+  class:list={[
+    'group flex flex-col overflow-hidden rounded-xl border transition-all hover:-translate-y-0.5 hover:shadow-lg',
+    featured
+      ? 'border-brand-200 bg-brand-50/40 dark:border-brand-800 dark:bg-brand-900/20'
+      : 'border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/40',
+  ]}
+>
+  <div class="aspect-[3/2] w-full overflow-hidden bg-gradient-to-br from-brand-600 to-brand-800">
+    {
+      issue.data.coverImage ? (
+        <img
+          src={issue.data.coverImage.src}
+          alt=""
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      ) : (
+        <div class="flex h-full flex-col items-center justify-center p-6 text-center text-white">
+          <span class="font-serif text-3xl font-bold">Vol. {issue.data.volume}</span>
+          <span class="mt-1 text-sm font-medium uppercase tracking-widest text-brand-100">
+            No. {issue.data.issue}
+          </span>
+        </div>
+      )
+    }
+  </div>
+  <div class="flex flex-1 flex-col p-5">
+    {
+      featured && (
+        <span class="mb-2 inline-flex w-fit items-center rounded-full bg-accent-500/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-accent-600">
+          Current Issue
+        </span>
+      )
+    }
+    <h3 class="font-serif text-lg font-semibold text-slate-900 dark:text-white">
+      {issue.data.title ?? issueLabel(issue)}
+    </h3>
+    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+      {issueLabel(issue)} · {formatDate(issue.data.publishDate)}
+    </p>
+    {
+      issue.data.summary && (
+        <p class="mt-2 line-clamp-2 text-sm text-slate-600 dark:text-slate-400">
+          {issue.data.summary}
+        </p>
+      )
+    }
+    <p class="mt-auto pt-4 text-sm font-medium text-brand-600 dark:text-brand-300">
+      {articleCount} {articleCount === 1 ? 'article' : 'articles'}
+      <span class="transition-transform group-hover:translate-x-0.5 inline-block">→</span>
+    </p>
+  </div>
+</a>

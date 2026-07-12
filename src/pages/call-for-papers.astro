@@ -1,0 +1,55 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { journal } from '../lib/journal';
+---
+
+<PageLayout
+  title="Call for Papers"
+  subtitle="Contribute to our inaugural issue."
+  description="IJATS invites original research articles, case studies, technical notes, and reviews across applied technology domains."
+>
+  <p>
+    The <strong>{journal.name} ({journal.shortName})</strong> invites researchers,
+    practitioners, and innovators to submit high-quality, original research
+    articles, case studies, technical notes, and review papers for our inaugural
+    issue.
+  </p>
+  <p>
+    We are seeking impactful contributions that bridge theory and practice across
+    a wide range of technology domains, including:
+  </p>
+  <ul>
+    {journal.scope.map((topic) => <li>{topic}</li>)}
+  </ul>
+
+  <h2>Important Dates</h2>
+  <ul>
+    <li><strong>Submission Deadline:</strong> Rolling — submissions accepted on an ongoing basis.</li>
+    <li><strong>Notification of Acceptance:</strong> Typically within 4–6 weeks of submission.</li>
+    <li><strong>Publication:</strong> Accepted papers are assigned to the next available issue.</li>
+  </ul>
+
+  <h2>Submission Guidelines</h2>
+  <p>
+    Manuscripts should be submitted electronically by email to
+    <a href={`mailto:${journal.email.submissions}`}>{journal.email.submissions}</a>.
+    Submissions must follow the journal's
+    <a href="/editorial-policies">Editorial Policies</a> regarding peer review,
+    ethics, and formatting. See <a href="/submit">Submit a Paper</a> for the full
+    checklist.
+  </p>
+
+  <h2>Open Access Policy</h2>
+  <p>
+    IJATS is an open-access journal. All published articles are freely available
+    online without subscription barriers, promoting global knowledge sharing and
+    visibility. There are <strong>no Article Processing Charges (APCs)</strong> for
+    papers accepted in the inaugural issues.
+  </p>
+
+  <h2>Join Us</h2>
+  <p>
+    Be part of IJATS's mission to drive technological innovation into real-world
+    solutions. We look forward to receiving your valuable contributions!
+  </p>
+</PageLayout>

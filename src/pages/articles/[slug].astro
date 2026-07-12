@@ -1,0 +1,143 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PdfButton from '../../components/PdfButton.astro';
+import type { ScholarMeta } from '../../components/BaseHead.astro';
+import { journal } from '../../lib/journal';
+import {
+  getRecentArticles,
+  formatAuthors,
+  pageRange,
+  formatDate,
+  issueLabel,
+} from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const articles = await getRecentArticles();
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}) satisfies GetStaticPaths;
+
+const { article } = Astro.props;
+const issue = await getEntry(article.data.issue);
+if (!issue) {
+  throw new Error(`Article "${article.id}" references a missing issue.`);
+}
+
+const pdfAbsolute = new URL(article.data.pdf, Astro.site).href;
+const pages = pageRange(article);
+
+const scholar: ScholarMeta = {
+  title: article.data.title,
+  authors: article.data.authors,
+  publicationDate: article.data.publishDate,
+  volume: issue.data.volume,
+  issue: issue.data.issue,
+  firstPage: article.data.startPage,
+  lastPage: article.data.endPage,
+  pdfUrl: pdfAbsolute,
+  doi: article.data.doi,
+};
+
+// A ready-to-copy citation string.
+const citation = `${formatAuthors(article.data.authors)} (${article.data.publishDate.getFullYear()}). ${article.data.title}. ${journal.name}, ${issue.data.volume}(${issue.data.issue})${pages ? `, ${pages}` : ''}.`;
+---
+
+<BaseLayout
+  title={article.data.title}
+  description={article.data.abstract.slice(0, 200)}
+  scholar={scholar}
+>
+  <article class="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+    <nav class="text-sm text-slate-500 dark:text-slate-400">
+      <a href="/issues" class="hover:text-brand-600 dark:hover:text-brand-300">Issues</a>
+      <span class="mx-2">/</span>
+      <a href={`/issues/${issue.id}`} class="hover:text-brand-600 dark:hover:text-brand-300">
+        {issueLabel(issue)}
+      </a>
+    </nav>
+
+    <span class="mt-4 inline-flex items-center rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-semibold text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">
+      Research Article
+    </span>
+
+    <h1 class="mt-3 font-serif text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+      {article.data.title}
+    </h1>
+
+    <p class="mt-4 text-lg text-slate-700 dark:text-slate-300">
+      {formatAuthors(article.data.authors)}
+    </p>
+    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+      {issueLabel(issue)} · Published {formatDate(article.data.publishDate)}
+      {pages && <> · Pages {pages}</>}
+      {article.data.doi && (
+        <>
+          {' '}· DOI:{' '}
+          <a href={`https://doi.org/${article.data.doi}`} class="text-brand-600 hover:underline dark:text-brand-300">
+            {article.data.doi}
+          </a>
+        </>
+      )}
+    </p>
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      <PdfButton href={article.data.pdf} label="View / Download PDF" variant="solid" />
+    </div>
+
+    <section class="mt-10">
+      <h2 class="font-serif text-xl font-bold text-slate-900 dark:text-white">Abstract</h2>
+      <p class="mt-3 leading-relaxed text-slate-700 dark:text-slate-300">
+        {article.data.abstract}
+      </p>
+    </section>
+
+    {
+      article.data.keywords.length > 0 && (
+        <section class="mt-8">
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            Keywords
+          </h2>
+          <div class="mt-2 flex flex-wrap gap-2">
+            {article.data.keywords.map((kw) => (
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                {kw}
+              </span>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="mt-10 rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900/40">
+      <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        How to cite
+      </h2>
+      <p class="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300" id="citation-text">
+        {citation}
+      </p>
+      <button
+        id="copy-citation"
+        type="button"
+        class="mt-3 rounded-md border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-white dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+        data-citation={citation}
+      >
+        Copy citation
+      </button>
+    </section>
+  </article>
+</BaseLayout>
+
+<script>
+  const btn = document.getElementById('copy-citation');
+  btn?.addEventListener('click', async () => {
+    const text = btn.getAttribute('data-citation') ?? '';
+    await navigator.clipboard.writeText(text);
+    const original = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => (btn.textContent = original), 1500);
+  });
+</script>

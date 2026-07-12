@@ -1,0 +1,24 @@
+---
+interface Props {
+  href: string;
+  label?: string;
+  /** "solid" for the primary action, "outline" for secondary. */
+  variant?: 'solid' | 'outline';
+}
+const { href, label = 'PDF', variant = 'outline' } = Astro.props;
+
+const base =
+  'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold transition-colors';
+const styles = {
+  solid: 'bg-brand-600 text-white hover:bg-brand-700',
+  outline:
+    'border border-brand-200 text-brand-700 hover:bg-brand-50 dark:border-brand-800 dark:text-brand-300 dark:hover:bg-brand-900/40',
+};
+---
+
+<a href={href} target="_blank" rel="noopener" class:list={[base, styles[variant]]}>
+  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" />
+  </svg>
+  {label}
+</a>

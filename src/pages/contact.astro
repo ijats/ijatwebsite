@@ -1,0 +1,45 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { journal } from '../lib/journal';
+---
+
+<PageLayout
+  title="Contact Us"
+  subtitle="Questions, collaborations, and submissions are all welcome."
+  description="Contact the IJATS editorial office for general inquiries and manuscript submissions."
+>
+  <p>
+    We welcome inquiries, collaborations, and submissions of original research in
+    applied technology fields. If you have questions about the journal, the
+    submission process, or editorial policies — or would like to explore
+    collaboration opportunities — please reach out.
+  </p>
+
+  <div class="not-prose my-8 grid gap-4 sm:grid-cols-2">
+    <a
+      href={`mailto:${journal.email.general}`}
+      class="block rounded-xl border border-slate-200 bg-white p-6 transition-colors hover:border-brand-300 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-brand-700"
+    >
+      <div class="text-2xl">✉️</div>
+      <h2 class="mt-2 font-serif text-lg font-semibold text-slate-900 dark:text-white">General Inquiries</h2>
+      <p class="mt-1 text-brand-600 dark:text-brand-300">{journal.email.general}</p>
+    </a>
+    <a
+      href={`mailto:${journal.email.submissions}`}
+      class="block rounded-xl border border-slate-200 bg-white p-6 transition-colors hover:border-brand-300 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-brand-700"
+    >
+      <div class="text-2xl">📄</div>
+      <h2 class="mt-2 font-serif text-lg font-semibold text-slate-900 dark:text-white">Submissions</h2>
+      <p class="mt-1 text-brand-600 dark:text-brand-300">{journal.email.submissions}</p>
+    </a>
+  </div>
+
+  <h2>Connect with Us</h2>
+  <p>Stay updated on calls for papers, announcements, and publication news:</p>
+  <ul>
+    <li><a href="/call-for-papers">Call for Papers</a></li>
+    <li><a href="/submit">Submit a Paper</a></li>
+    <li><a href="/editorial-policies">Editorial Policies</a></li>
+  </ul>
+  <p>We look forward to hearing from you!</p>
+</PageLayout>

@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import IssueCard from '../components/IssueCard.astro';
+import ArticleItem from '../components/ArticleItem.astro';
+import { journal } from '../lib/journal';
+import {
+  getLatestIssue,
+  getArticlesForIssue,
+  getRecentArticles,
+  issueLabel,
+} from '../lib/content';
+
+const latestIssue = await getLatestIssue();
+const latestArticles = latestIssue
+  ? await getArticlesForIssue(latestIssue.id)
+  : [];
+const recentArticles = await getRecentArticles(5);
+---
+
+<BaseLayout title={journal.shortName} description={journal.description}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-slate-200 bg-gradient-to-b from-brand-50 via-white to-white dark:border-slate-800 dark:from-brand-950/40 dark:via-slate-950 dark:to-slate-950">
+    <div class="pointer-events-none absolute inset-0 [mask-image:radial-gradient(60%_50%_at_50%_0%,black,transparent)]">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,theme(colors.slate.200/40)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.slate.200/40)_1px,transparent_1px)] bg-[size:44px_44px] dark:bg-[linear-gradient(to_right,theme(colors.slate.800/40)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.slate.800/40)_1px,transparent_1px)]">
+      </div>
+    </div>
+    <div class="relative mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-28">
+      <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-700 dark:border-brand-800 dark:bg-slate-900/70 dark:text-brand-300">
+        Open Access · Peer-Reviewed
+      </span>
+      <h1 class="mx-auto mt-6 max-w-3xl font-serif text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-white">
+        {journal.name}
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-600 dark:text-slate-300">
+        {journal.tagline}. We publish applied technology research with clear
+        industrial, societal, and economic impact.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a href="/submit" class="rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-700">
+          Submit a Paper
+        </a>
+        <a href="/issues" class="rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+          Browse Issues
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <!-- Latest issue + recent articles -->
+    <section class="grid gap-10 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <div class="flex items-baseline justify-between">
+          <h2 class="font-serif text-2xl font-bold text-slate-900 dark:text-white">
+            {latestIssue ? 'Latest Articles' : 'Coming Soon'}
+          </h2>
+          {latestIssue && (
+            <a href="/issues" class="text-sm font-medium text-brand-600 hover:underline dark:text-brand-300">
+              All issues →
+            </a>
+          )}
+        </div>
+
+        {
+          recentArticles.length > 0 ? (
+            <div class="mt-2 divide-y divide-slate-200 dark:divide-slate-800">
+              {recentArticles.map((article) => (
+                <ArticleItem article={article} />
+              ))}
+            </div>
+          ) : (
+            <div class="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center dark:border-slate-700 dark:bg-slate-900/40">
+              <p class="text-slate-600 dark:text-slate-400">
+                Our inaugural issue is in preparation. See the
+                <a href="/call-for-papers" class="font-medium text-brand-600 hover:underline dark:text-brand-300"> Call for Papers</a>
+                to contribute.
+              </p>
+            </div>
+          )
+        }
+      </div>
+
+      <aside class="space-y-6">
+        {
+          latestIssue && (
+            <div>
+              <h2 class="mb-3 font-serif text-lg font-bold text-slate-900 dark:text-white">
+                Current Issue
+              </h2>
+              <IssueCard
+                issue={latestIssue}
+                articleCount={latestArticles.length}
+                featured
+              />
+            </div>
+          )
+        }
+        <div class="rounded-xl border border-brand-200 bg-brand-50/50 p-5 dark:border-brand-800 dark:bg-brand-900/20">
+          <h2 class="font-serif text-lg font-bold text-slate-900 dark:text-white">
+            📢 Call for Papers
+          </h2>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            We welcome original research, case studies, and reviews. No Article
+            Processing Charges for our inaugural issues.
+          </p>
+          <a href="/call-for-papers" class="mt-3 inline-block text-sm font-semibold text-brand-600 hover:underline dark:text-brand-300">
+            Read the Call for Papers →
+          </a>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Scope -->
+    <section class="mt-20">
+      <h2 class="text-center font-serif text-2xl font-bold text-slate-900 dark:text-white">
+        Aims &amp; Scope
+      </h2>
+      <p class="mx-auto mt-2 max-w-2xl text-center text-slate-600 dark:text-slate-400">
+        Interdisciplinary applied technology research across ten focus areas.
+      </p>
+      <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          journal.scope.map((topic) => (
+            <div class="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/40">
+              <span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand-100 text-xs font-bold text-brand-700 dark:bg-brand-900/60 dark:text-brand-300">
+                ✓
+              </span>
+              <span class="text-sm text-slate-700 dark:text-slate-300">{topic}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Why publish -->
+    <section class="mt-20 rounded-2xl border border-slate-200 bg-slate-50 p-8 sm:p-12 dark:border-slate-800 dark:bg-slate-900/40">
+      <h2 class="font-serif text-2xl font-bold text-slate-900 dark:text-white">
+        Why publish with {journal.shortName}?
+      </h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2">
+        {
+          [
+            ['Rigorous double-blind review', 'Every manuscript is evaluated by at least two independent experts.'],
+            ['Rapid publication', 'A streamlined editorial process with prompt decisions.'],
+            ['Global open access', 'Freely available worldwide — no subscription barriers.'],
+            ['Indexing roadmap', 'Actively pursuing Google Scholar, DOAJ, Scopus, and Web of Science.'],
+          ].map(([title, body]) => (
+            <div class="flex gap-4">
+              <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-500" />
+              <div>
+                <h3 class="font-semibold text-slate-900 dark:text-white">{title}</h3>
+                <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{body}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>

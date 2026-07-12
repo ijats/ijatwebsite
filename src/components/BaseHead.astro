@@ -1,0 +1,85 @@
+---
+import { journal } from '../lib/journal';
+
+/**
+ * Centralised <head> metadata: title, description, canonical URL, Open Graph,
+ * and — for article pages — the Google Scholar `citation_*` tags that make each
+ * paper indexable and citable.
+ */
+export interface ScholarMeta {
+  title: string;
+  authors: string[];
+  publicationDate: Date;
+  volume: number;
+  issue: number;
+  firstPage?: number;
+  lastPage?: number;
+  /** Absolute URL to the article PDF. */
+  pdfUrl: string;
+  doi?: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Present only on individual article pages. */
+  scholar?: ScholarMeta;
+}
+
+const { title, description = journal.description, scholar } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const fullTitle =
+  title === journal.shortName ? title : `${title} — ${journal.shortName}`;
+
+// Scholar wants the date as YYYY/MM/DD.
+const scholarDate = scholar
+  ? `${scholar.publicationDate.getUTCFullYear()}/${scholar.publicationDate.getUTCMonth() + 1}/${scholar.publicationDate.getUTCDate()}`
+  : undefined;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href={canonical} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${journal.shortName} — Latest Articles`}
+  href="/rss.xml"
+/>
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content={scholar ? 'article' : 'website'} />
+<meta property="og:site_name" content={journal.shortName} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+
+<!-- Google Scholar citation metadata (article pages only) -->
+{
+  scholar && (
+    <>
+      <meta name="citation_journal_title" content={journal.name} />
+      <meta name="citation_title" content={scholar.title} />
+      {scholar.authors.map((a) => (
+        <meta name="citation_author" content={a} />
+      ))}
+      <meta name="citation_publication_date" content={scholarDate} />
+      <meta name="citation_volume" content={String(scholar.volume)} />
+      <meta name="citation_issue" content={String(scholar.issue)} />
+      {scholar.firstPage && (
+        <meta name="citation_firstpage" content={String(scholar.firstPage)} />
+      )}
+      {scholar.lastPage && (
+        <meta name="citation_lastpage" content={String(scholar.lastPage)} />
+      )}
+      {scholar.doi && <meta name="citation_doi" content={scholar.doi} />}
+      <meta name="citation_pdf_url" content={scholar.pdfUrl} />
+    </>
+  )
+}
