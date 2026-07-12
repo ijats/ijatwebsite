@@ -17,8 +17,10 @@
 backend:
   name: github
   repo: ijats/ijatwebsite
-  # The repository's default branch is detected automatically. After the new
-  # site is merged to the default branch, content lives there.
+  # REVIEW PHASE: edits target the review branch so they never touch the live
+  # site. ⚠️ AT GO-LIVE: once this branch is merged into the default branch,
+  # delete this `branch:` line (it then auto-detects the default branch).
+  branch: rebuild-astro
   #
   # For one-click GitHub OAuth, deploy oauth-worker/ and set this to its URL:
   # base_url: https://ijats-cms-auth.<your-subdomain>.workers.dev
