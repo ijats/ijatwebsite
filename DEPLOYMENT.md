@@ -11,13 +11,11 @@ publish. **No server, no database, $0/month hosting.**
 
 ### 1. Publish the new site to GitHub Pages
 
-1. In `public/admin/config.yml`, **remove the `branch: rebuild-astro` line**
-   under `backend:` (it was set so review-phase admin edits stayed off the live
-   site; after merge the console should follow the default branch).
-2. Merge the `rebuild-astro` branch into `master` (or push it directly).
-3. In the repo on GitHub: **Settings → Pages → Build and deployment → Source**,
-   choose **GitHub Actions**.
-4. The workflow in `.github/workflows/deploy.yml` runs on every push to `master`
+1. Set **Settings → Pages → Build and deployment → Source** to **GitHub
+   Actions** (or via API: `PUT /repos/ijats/ijatwebsite/pages` with
+   `{"build_type":"workflow"}`).
+2. Merge the `rebuild-astro` branch into `master` (the default branch).
+3. The workflow in `.github/workflows/deploy.yml` runs on every push to `master`
    and publishes `dist/` to `ijats.org`. The `public/CNAME` file keeps the
    custom domain — no DNS changes are needed.
 
