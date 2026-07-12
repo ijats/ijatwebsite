@@ -16,7 +16,7 @@ applied technology research. Live at **[ijats.org](https://ijats.org)**.
 | Styling | [Tailwind CSS](https://tailwindcss.com) v4 |
 | Editor console | [Sveltia CMS](https://github.com/sveltia/sveltia-cms) (git-based) |
 | Hosting | GitHub Pages (free, auto-deploy) |
-| Admin login | GitHub OAuth via a Cloudflare Worker relay |
+| Admin login | GitHub token (optional one-click OAuth via a Cloudflare Worker) |
 
 Everything is static → free to host, low-maintenance, and secure (no server or
 database to patch).

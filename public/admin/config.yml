@@ -1,25 +1,27 @@
 # =============================================================================
 # IJATS Editor Console configuration (Sveltia CMS)
 #
-# This drives the /admin console. Editors log in with GitHub, fill in the forms
-# below, and their changes are committed to the repository — which rebuilds and
-# publishes the site automatically.
+# This drives the /admin console. Editors sign in, fill in the forms below, and
+# their changes are committed to the repository — which rebuilds and publishes
+# the site automatically.
 #
-# BEFORE THIS WORKS you must set `backend.base_url` to your deployed OAuth
-# relay (a free Cloudflare Worker). See DEPLOYMENT.md, step "Admin login".
+# SIGNING IN (two options):
+#   1. Personal Access Token — works immediately, no extra setup. Click
+#      "Sign In Using Access Token" and paste a GitHub token with `repo` scope.
+#      Recommended for a single editor. (See DEPLOYMENT.md → "Admin login".)
+#   2. One-click "Sign In with GitHub" (nicer for several editors) — deploy the
+#      Cloudflare Worker in oauth-worker/, then uncomment `base_url` below and
+#      set it to the worker's URL.
 # =============================================================================
 
 backend:
   name: github
   repo: ijats/ijatwebsite
-  branch: master
-  # URL of the sveltia-cms-auth Cloudflare Worker that performs the GitHub
-  # OAuth handshake. Replace with your worker's URL, e.g.
-  # https://ijats-cms-auth.<your-subdomain>.workers.dev
-  base_url: https://REPLACE-WITH-YOUR-OAUTH-WORKER.workers.dev
-
-# Show a "Publish" workflow with a preview before changes go live.
-publish_mode: simple
+  # The repository's default branch is detected automatically. After the new
+  # site is merged to the default branch, content lives there.
+  #
+  # For one-click GitHub OAuth, deploy oauth-worker/ and set this to its URL:
+  # base_url: https://ijats-cms-auth.<your-subdomain>.workers.dev
 
 # Uploaded PDFs and cover images land here in the repo...
 media_folder: public/pdfs
@@ -89,7 +91,6 @@ collections:
           label: Full-issue PDF,
           widget: file,
           required: false,
-          media_library: { config: { max_file_size: 52428800 } },
           hint: 'Optional single PDF of the entire issue.',
         }
 
@@ -127,8 +128,7 @@ collections:
           name: pdf,
           label: Article PDF,
           widget: file,
-          media_library: { config: { max_file_size: 52428800 } },
-          hint: 'Upload the article PDF (max 50 MB).',
+          hint: 'Upload the article PDF.',
         }
       - { name: doi, label: DOI, widget: string, required: false, hint: 'Optional, e.g. 10.1234/ijats.2026.001' }
       - {

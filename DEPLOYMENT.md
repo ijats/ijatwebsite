@@ -18,50 +18,23 @@ publish. **No server, no database, $0/month hosting.**
    and publishes `dist/` to `ijats.org`. The `public/CNAME` file keeps the
    custom domain — no DNS changes are needed.
 
-### 2. Create a GitHub OAuth App (for admin login)
+### 2. Admin login — sign in with a GitHub token (no extra setup)
 
-The editor console signs in with GitHub. Create an OAuth App:
+The editor console signs in with GitHub. For a single editor this needs **no
+OAuth app and no Cloudflare Worker** — you sign in with a Personal Access Token:
 
-1. Go to **GitHub → Settings → Developer settings → OAuth Apps → New OAuth App**
-   (or use an organization's developer settings if the repo is org-owned).
-2. Fill in:
-   - **Application name:** `IJATS Editor Console`
-   - **Homepage URL:** `https://ijats.org`
-   - **Authorization callback URL:** `https://<your-worker-url>/callback`
-     (you'll get the worker URL in the next step — you can edit this field
-     afterwards).
-3. Click **Register application**, then **Generate a new client secret**.
-4. Copy the **Client ID** and **Client secret** — you'll paste them into the
-   Cloudflare Worker next. Treat the secret like a password.
+1. Create a token at **GitHub → Settings → Developer settings → Personal access
+   tokens**. Either type works:
+   - **Fine-grained token:** give it access to the `ijats/ijatwebsite`
+     repository with **Contents: Read and write** permission.
+   - **Classic token:** tick the **`repo`** scope.
+2. Visit `https://ijats.org/admin`, click **Sign In Using Access Token**, choose
+   GitHub, and paste the token. That's it — you're in. The token is stored only
+   in your own browser.
 
-### 3. Deploy the OAuth relay (free Cloudflare Worker)
-
-The code is in [`oauth-worker/worker.js`](oauth-worker/worker.js). See
-[`oauth-worker/README.md`](oauth-worker/README.md) for click-by-click steps. In
-short:
-
-1. Create a free account at <https://dash.cloudflare.com>.
-2. **Workers & Pages → Create → Worker**, name it e.g. `ijats-cms-auth`, deploy.
-3. **Edit code**, paste the contents of `oauth-worker/worker.js`, and deploy.
-4. **Settings → Variables and Secrets**, add two **encrypted** secrets:
-   - `GITHUB_CLIENT_ID` = the Client ID from step 2
-   - `GITHUB_CLIENT_SECRET` = the Client secret from step 2
-5. Copy your Worker URL, e.g.
-   `https://ijats-cms-auth.<subdomain>.workers.dev`.
-6. Go back to the GitHub OAuth App (step 2) and set the **Authorization callback
-   URL** to `https://ijats-cms-auth.<subdomain>.workers.dev/callback`.
-
-### 4. Point the CMS at the relay
-
-Edit [`public/admin/config.yml`](public/admin/config.yml) and set:
-
-```yaml
-backend:
-  base_url: https://ijats-cms-auth.<subdomain>.workers.dev
-```
-
-Commit and push. Once the deploy finishes, visit `https://ijats.org/admin`,
-click **Sign in with GitHub**, and you're in.
+> Prefer a one-click **"Sign In with GitHub"** button (nicer if several editors
+> share the console)? That needs a small OAuth relay — see the optional section
+> at the bottom. The token method above is otherwise all you need.
 
 ---
 
@@ -101,7 +74,7 @@ npm run preview # serve the built dist/ locally
 | Content (issues, articles) | `src/content/issues`, `src/content/articles` |
 | PDFs & images | `public/pdfs` (uploaded via /admin) |
 | Editor console | `public/admin/` (Sveltia CMS) |
-| Admin login relay | `oauth-worker/` (Cloudflare Worker) |
+| Optional 1-click login relay | `oauth-worker/` (Cloudflare Worker) |
 | Auto-deploy | `.github/workflows/deploy.yml` |
 
 ## Upgrade paths (when you outgrow the basics)
@@ -111,3 +84,29 @@ npm run preview # serve the built dist/ locally
   stores PDFs as URLs, so no code change is needed for existing content.
 - **Non-technical editors without GitHub accounts:** swap the GitHub backend for
   an email/password identity service; the collections stay the same.
+
+---
+
+## Optional: one-click "Sign In with GitHub" (OAuth)
+
+The token sign-in above is all a solo editor needs. If you'd rather have a
+one-click **Sign In with GitHub** button (handy when several editors share the
+console), deploy the small OAuth relay:
+
+1. **Create a GitHub OAuth App** — GitHub → Settings → Developer settings →
+   OAuth Apps → New OAuth App:
+   - **Application name:** `IJATS Editor Console`
+   - **Homepage URL:** `https://ijats.org`
+   - **Authorization callback URL:** `https://<your-worker-url>/callback`
+     (fill in after step 2; it's editable).
+   - Register, then **Generate a new client secret**. Copy the **Client ID** and
+     **Client secret**.
+2. **Deploy the Cloudflare Worker** in [`oauth-worker/`](oauth-worker/README.md):
+   create a free Cloudflare account, make a Worker named `ijats-cms-auth`, paste
+   `oauth-worker/worker.js`, and add two encrypted secrets `GITHUB_CLIENT_ID`
+   and `GITHUB_CLIENT_SECRET`. Note the Worker URL.
+3. Set the OAuth App's callback URL to `https://<worker-url>/callback`.
+4. In [`public/admin/config.yml`](public/admin/config.yml), uncomment `base_url`
+   under `backend:` and set it to the Worker URL. Commit and push.
+
+After the deploy, **Sign In with GitHub** works without pasting a token.
